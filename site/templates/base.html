@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>{% block title %}Scriptlets - Quick web scripts{% endblock %}</title>
+    <link href="/static/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/codemirror.js"></script>
+    <script type="text/javascript" src="/static/prototype.js"></script>
+    <style type="text/css">
+      iframe { margin-top: 5px; margin-bottom: 10px; }
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <h1><img src="/favicon.ico" width="20" height="20" style="position: relative; left: 2px;"/> Scriptlets</h1>
+      </div>
+      <div id="content">
+        <div style="float: right;">
+          {% if user %}
+          {{ user.nickname }} | <a href="{{ logout_url }}">Logout</a>
+          {% else %}
+          Not logged in. <a href="{{ login_url }}">Login?</a>
+          {% endif %}
+        </div>
+        {% block content %}{% endblock %}
+      </div>
+      <div id="footer">
+        <a href="/">Home</a> | <strong><a href="#">More info...</a></strong>
+      </div>
+    </div>
+    <script type="text/javascript">
+    var uservoiceJsHost = ("https:" == document.location.protocol) ? "https://uservoice.com" : "http://cdn.uservoice.com";
+    document.write(unescape("%3Cscript src='" + uservoiceJsHost + "/javascripts/widgets/tab.js' type='text/javascript'%3E%3C/script%3E"))
+    </script>
+    <script type="text/javascript">
+    UserVoice.Tab.show({ 
+      key: 'scriptlets',
+      host: 'scriptlets.uservoice.com', 
+      forum: 'general', 
+      alignment: 'left', /* 'left', 'right' */
+      background_color:'lightblue', 
+      text_color: 'black', /* 'white', 'black' */
+      hover_color: '#06C',
+      lang: 'en' /* 'en', 'de', 'nl', 'es', 'fr' */
+    })
+    </script>
+  </body>
+</html>

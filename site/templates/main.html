@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<style type="text/css">
+  form iframe { border: 1px solid black !important; }
+  textarea { width: 100%; height: 300px; margin-bottom: 10px; margin-top: 5px;}
+</style>
+<form method="post">
+  Language: <select id="language" name="language" onchange="editors[this.value]['frame'].show(); hideEditors();"><option>javascript</option><option>php</option><option>python</option></select>
+<textarea id="php-code" name="php-code" onchange="editors['php'].setCode(this.value)">// PHP 5.2 powered by Quercus
+//
+// Like a typical PHP environment. $_GET, $_POST, echo ... everything you need.
+// Make HTTP requests with: fetch($url, $post_params) -> Array(code, body)
+//
+// Example (try uncommenting):
+// echo "Hello! Your name: {$_GET['name']} <hr />".fetch('http://example.com')[1];
+</textarea>
+<textarea id="python-code" name="python-code" onchange="editors['python'].setCode(this.value)"># Python 2.5.2 powered by GAE
+#
+# Like a typical App Engine environment with req and resp objects.
+# Make HTTP requests with: fetch (see App Engine documentation)
+#
+# Example (try uncommenting):
+# resp.out.write("Hello! Your name: %s <hr />%s" % (req.get('name'), fetch('http://example.com').content))
+</textarea>
+<textarea id="javascript-code" name="javascript-code" onchange="editors['javascript'].setCode(this.value)">// JavaScript powered by Rhino
+//
+// Jack (http://tinyurl.com/adqv8w) app environment with req and resp objects.
+// Make HTTP requests with: fetch(url, post_params) -> [code, body]
+//
+// Example (try uncommenting):
+// resp.write("Hello! Your name: "+req.GET('name')+"<hr />"+fetch('http://example.com')[1]);
+</textarea>
+<a href="javascript:void(0)" onclick="hideEditors(true); $($F('language')+'-code').show();" style="float: right; font-size: smaller; margin-top: -8px; color: grey;">Use regular textarea</a>
+<input type="submit" value="Save Scriptlet" /> to get a URL that will run this code.
+</form>
+
+<script type="text/javascript">
+var editors = {
+  'javascript': CodeMirror.fromTextArea("javascript-code", {
+  parserfile: ["tokenizejavascript.js", "parsejavascript.js"],
+  path: "/static/js/",
+  stylesheet: "/static/css/jscolors.css",
+}),
+  'php': CodeMirror.fromTextArea("php-code", {
+    parserfile: ["tokenizejavascript.js", "parsejavascript.js"],
+    path: "/static/js/",
+    stylesheet: "/static/css/jscolors.css",
+}),
+  'python': CodeMirror.fromTextArea("python-code", {
+  parserfile: ["../contrib/python/js/parsepython.js"],
+  path: "/static/js/",
+  stylesheet: "/static/contrib/python/css/pythoncolors.css",
+}),
+}
+function hideEditors(all) {
+$H(editors).each(function(kv){if($F('language')!=kv[0]||all){kv[1]['frame'].hide()};$(kv[0]+'-code').hide();})
+}
+hideEditors();
+</script>
+{% endblock %}

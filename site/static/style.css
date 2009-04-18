@@ -1,0 +1,16 @@
+body { font-family: Helvetica,Arial,sans-serif; font-size: smaller;}
+#header h1 { display: block; margin: 0;}
+#header { border-bottom: 2px solid darkblue; padding: 5px; padding-bottom: 1px; background-color: lightblue;}
+#wrapper { margin-left: auto; margin-right: auto; width: 800px;}
+#content { margin: 10px; }
+pre { font-size: larger;}
+ul { padding-left: 20px;}
+#make-form { margin: 20px; text-align: center; margin-right: 80px;}
+#make-form input { font-size: larger;}
+#footer {
+    margin-top: 20px;
+    border-top: 1px solid darkblue;
+    background-color: lightblue;
+    padding: 5px;
+    padding-left: 10px;
+}

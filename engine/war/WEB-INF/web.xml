@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+  <servlet>
+		<servlet-name>JavaScript Module</servlet-name>
+		<servlet-class>org.jackjs.JackServlet</servlet-class>
+		<init-param>
+			<param-name>modulesPath</param-name>
+			<param-value>WEB-INF/javascript</param-value>
+		</init-param>
+		<init-param>
+			<param-name>module</param-name>
+			<param-value>main.js</param-value>
+		</init-param>
+	</servlet>
+  
+	<servlet>
+    	<servlet-name>PHP Module</servlet-name>
+    	<servlet-class>com.caucho.quercus.servlet.QuercusServlet</servlet-class>
+    	<init-param>
+    		<param-name>ini-file</param-name>
+    		<param-value>WEB-INF/php.ini</param-value>
+    	</init-param>
+  </servlet>
+  	
+  <servlet-mapping>
+		<servlet-name>JavaScript Module</servlet-name>
+		<url-pattern>/javascript/</url-pattern>
+	</servlet-mapping>
+  	
+	<servlet-mapping>
+    	<servlet-name>PHP Module</servlet-name>
+    	<url-pattern>*.php</url-pattern>
+  </servlet-mapping> 
+  	
+  
+  	
+  	<welcome-file-list>
+    	<welcome-file>index.php</welcome-file>
+  	</welcome-file-list>
+</web-app>
