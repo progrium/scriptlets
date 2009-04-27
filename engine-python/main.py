@@ -23,6 +23,7 @@ import base64
 import sys
 
 from google.appengine.ext import webapp
+from google.appengine.api.urlfetch import fetch
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
@@ -32,7 +33,11 @@ class MainHandler(webapp.RequestHandler):
         self._run_code()
         
     def _run_code(self):
-        code = base64.b64decode(self.request.headers['Run-Code']).replace("\r\n", "\n") + "\n"
+        if self.request.headers.get('Run-Code'):
+            code = self.request.headers['Run-Code']
+        elif self.request.headers.get('Run-Code-URL'):
+            code = fetch(url=self.request.headers.get('Run-Code-URL')).content
+        code = base64.b64decode(code).replace("\r\n", "\n") + "\n"
         code = "from google.appengine.api.urlfetch import fetch\n%s" % code
         compiled = compile(code, '<string>', 'exec')
         old_stderr, old_stdout = sys.stderr, sys.stdout
