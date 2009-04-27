@@ -1,5 +1,6 @@
 import time
 import urllib
+import base64
 from google.appengine.ext import db
 from google.appengine.api import urlfetch
 
@@ -27,9 +28,10 @@ class Script(db.Model):
         
     def run(self, request):
         payload = dict(request.POST)
-        payload['_code'] = self.code
+        headers = dict(request.headers)
+        headers['Run-Code'] = base64.b64encode(self.code)
         return urlfetch.fetch(
                     url='%s?%s' % (language_engines[self.language], request.query_string),
-                    payload=urllib.urlencode(payload),
-                    method=urlfetch.POST,
-                    headers=dict(request.headers)).content
+                    payload=urllib.urlencode(payload) if len(payload) else None,
+                    method=request.method,
+                    headers=headers).content

