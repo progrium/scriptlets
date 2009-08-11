@@ -4,7 +4,17 @@ import base64
 from webob import Request, Response
 
 def handler(environ, start_response):
-    start_response("200 OK", [ ('content-type', 'text/html') ])
     req = Request(environ)
-    response_text = "Hello %s!" % req.GET.get('name', '')
-    return [response_text]
+    resp = Response()
+
+    code = base64.b64decode(environ['HTTP_RUN_CODE']).replace("\r\n", "\n") + "\n"
+    code = "from scriptlets.util import RestClient\n%s" % code
+    compiled = compile(code, '<string>', 'exec')
+    old_stderr, old_stdout = sys.stderr, sys.stdout
+    
+    try:
+        sys.stderr, sys.stdout = resp, resp
+        exec compiled in {'req': req, 'resp': resp}
+    finally:
+        sys.stderr, sys.stdout = old_stderr, old_stdout
+        return resp(environ, start_response)

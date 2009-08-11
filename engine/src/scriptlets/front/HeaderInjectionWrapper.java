@@ -27,6 +27,12 @@ public class HeaderInjectionWrapper extends HttpServletRequestWrapper
     {
        return (String)(headerMap.get(name));
     }
+    public java.util.Enumeration getHeaders(String name)
+    {
+       Vector values = new Vector();
+       values.add(getHeader(name));
+       return Collections.enumeration(values);
+    }
     public java.util.Enumeration getHeaderNames()
     {
        return Collections.enumeration(this.headerMap.keySet());
