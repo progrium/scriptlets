@@ -30,6 +30,46 @@
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>scriptlets.front.DispatcherServlet</servlet-class>
     </servlet>
+    
+    
+    <servlet>
+        <servlet-name>python</servlet-name>
+        <servlet-class>com.xhaus.modjy.ModjyJServlet</servlet-class>
+        <init-param>
+          <param-name>python.home</param-name>
+          <param-value>WEB-INF/lib-python</param-value>
+        </init-param>
+        <init-param>
+          <param-name>app_filename</param-name>
+          <param-value>run.py</param-value>
+        </init-param>
+        <init-param>
+            <param-name>multithread</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+          <param-name>python.cachedir.skip</param-name>
+          <param-value>true</param-value>
+        </init-param>
+        <init-param>
+          <param-name>cache_callables</param-name>
+          <param-value>1</param-value>
+        </init-param>
+        <init-param>
+          <param-name>reload_on_mod</param-name>
+          <param-value>1</param-value>
+        </init-param>
+        <!--init-param>
+          <param-name>log_level</param-name>
+          <param-value>debug</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup-->
+      </servlet>
+
+      <servlet-mapping>
+        <servlet-name>python</servlet-name>
+        <url-pattern>/python/</url-pattern>
+      </servlet-mapping>
   
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -44,7 +84,39 @@
     <servlet-mapping>
         <servlet-name>php</servlet-name>
         <url-pattern>*.php</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
+    
+    <!--servlet>
+        <servlet-name>proxy</servlet-name>
+        <servlet-class>com.jsos.httpproxy.HttpProxyServlet</servlet-class>
+        <init-param>
+            <param-name>host</param-name>
+            <param-value>http://localhost:8082/python/</param-value>
+        </init-param>
+    </servlet-->
+    
+    <!--servlet-mapping>
+      <servlet-name>proxy</servlet-name>
+      <url-pattern>/python/</url-pattern>
+    </servlet-mapping-->
+   
+    
+      <context-param>
+        <param-name>rackup</param-name>
+        <param-value>require '../run'; run Scriptlets</param-value>
+      </context-param>
+      <listener>
+          <listener-class>org.jruby.rack.RackServletContextListener</listener-class>
+        </listener>
+      <servlet>
+        <servlet-name>ruby</servlet-name>
+        <servlet-class>org.jruby.rack.RackServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+        <servlet-name>ruby</servlet-name>
+        <url-pattern>/ruby/</url-pattern>
+      </servlet-mapping>
+      
 
     <welcome-file-list>
         <welcome-file>index.php</welcome-file>

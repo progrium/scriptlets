@@ -9,6 +9,7 @@ import base64
 import urllib
 
 language_engines = {
+    'ruby': 'http://scriptlets-engine.appspot.com/ruby/',
     'php': 'http://scriptlets-engine.appspot.com/run.php',
     'javascript': 'http://scriptlets-engine.appspot.com/javascript/',
     'python': 'http://scriptlets-python.appspot.com/python/',
@@ -39,7 +40,8 @@ class CodeHandler(webapp.RequestHandler):
             self.redirect(self.request.path[:-1])
         name = self.request.path.split('/')[-1]
         script = Script.all().filter('name =', name).get()
-        self.response.out.write(base64.b64encode(script.code))
+        self.response.out.write("#!%s\n" % script.language)
+        self.response.out.write(script.code)
 
 class RunHandler(webapp.RequestHandler):
     def get(self):

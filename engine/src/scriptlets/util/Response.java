@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Response {
     private String content = "";
+    private int code;
     private HttpURLConnection connection;
     
     public Response(HttpURLConnection connection) throws IOException {
@@ -17,6 +18,8 @@ public class Response {
             content = content + "\n" + line;
         }
         reader.close();
+        connection.disconnect();
+        code = connection.getResponseCode();
     }
     
     public String toString() {
@@ -24,6 +27,6 @@ public class Response {
     }
     
     public int toInteger() throws IOException {
-        return connection.getResponseCode();
+        return code;
     }
 }
