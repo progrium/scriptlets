@@ -1,0 +1,6 @@
+-add edit/delete
+-put scriptlets package under org
+-make restclient have static methods
+-deploy
+
+-add code caching, random key
