@@ -22,13 +22,13 @@
 // Example (try uncommenting):
 // echo "Hello! Your name: {$_GET['name']} <hr />".fetch('http://example.com')[1];
 </textarea>
-<textarea id="python-code" name="python-code" onchange="editors['python'].setCode(this.value)"># Python 2.5.2 powered by GAE
+<textarea id="python-code" name="python-code" onchange="editors['python'].setCode(this.value)"># Python 2.5 powered by Jython
 #
-# Like a typical App Engine environment with req and resp objects.
-# Make HTTP requests with: fetch (see App Engine documentation)
+# A WSGI environ with WebOb req and resp objects.
+# Make HTTP requests with: RestClient().request(url, headers, post_params) -> Response
 #
 # Example (try uncommenting):
-# resp.out.write("Hello! Your name: %s <hr />%s" % (req.get('name'), fetch('http://example.com').content))
+# resp.write("Hello! Your name: %s <hr />%s" % (req.GET.get('name'), RestClient().get('http://example.com')))
 </textarea>
 <textarea id="javascript-code" name="javascript-code" onchange="editors['javascript'].setCode(this.value)">// JavaScript powered by Rhino
 //

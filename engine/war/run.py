@@ -10,11 +10,11 @@ def handler(environ, start_response):
     code = base64.b64decode(environ['HTTP_RUN_CODE']).replace("\r\n", "\n") + "\n"
     code = "from scriptlets.util import RestClient\n%s" % code
     compiled = compile(code, '<string>', 'exec')
-    old_stderr, old_stdout = sys.stderr, sys.stdout
     
-    try:
-        sys.stderr, sys.stdout = resp, resp
-        exec compiled in {'req': req, 'resp': resp}
-    finally:
-        sys.stderr, sys.stdout = old_stderr, old_stdout
-        return resp(environ, start_response)
+    old_stderr, old_stdout = sys.stderr, sys.stdout
+    sys.stderr, sys.stdout = resp, resp
+    
+    exec compiled in {'req': req, 'resp': resp}
+    
+    sys.stderr, sys.stdout = old_stderr, old_stdout
+    return resp(environ, start_response)
