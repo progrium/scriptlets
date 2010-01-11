@@ -1,1 +1,0 @@
-<?php header("Location: http://www.scriptlets.org"); exit; ?>
