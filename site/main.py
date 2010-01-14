@@ -54,14 +54,15 @@ def script_routing(f):
             self.not_found()
         elif self.should_run():
             self.run(script, version)
-        elif ext == 'js':
-            self.response.headers['Content-Type'] = 'text/javascript'
-            self.response.out.write(version.body)
         else:
             user = users.get_current_user()
             if script.private and script.user.key() != user.key():
                 return self.not_authorized()
-            f(self, script, version, user)
+            if ext == 'js':
+                self.response.headers['Content-Type'] = 'text/javascript'
+                self.response.out.write(version.body)
+            else:
+                f(self, script, version, user)
     return wrap
 
 class ScriptHandler(webapp.RequestHandler):
