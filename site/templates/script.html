@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<style type="text/css">
+  form iframe { border: 1px solid black !important; }
+  textarea { width: 100%; height: 300px; margin-bottom: 10px; margin-top: 5px;}
+</style>
+<form method="post">
+<textarea id="script" name="script">{{version.body}}
+</textarea>
+<input type="submit" value="Save Scriptlet" /> to get a URL that will run this code.
+</form>
+{% endblock %}
